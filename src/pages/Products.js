@@ -1,80 +1,67 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '../features/productsSlice';
-import { Link } from 'react-router-dom';
-import { Grid, Card, CardMedia, CardContent, Typography, Button, CircularProgress } from '@mui/material';
+// import { fetchProducts } from '../features/productsSlice';
+import { fetchProducts, toggleShowPublished } from '../features/productsSlice';  
+
+// import { Taю.bs, Tab, Box, Typography, List, ListItem, ListItemText, Button, FormControlLabel  } from '@mui/material';
+// import {  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Switch, FormControlLabel } from '@mui/material';
+import { Tabs, Tab, Box, Typography, List, ListItem, ListItemText, Button, FormControlLabel, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+
+import { deleteProduct } from '../features/productsSlice';
+
+import ProductsFromAPI from '../components/ProductsFromAPI';
+import CreatedProducts from '../components/CreatedProducts';
 
 const Products = () => {
+    const [value, setValue] = useState(0);
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products.products);
-    const status = useSelector((state) => state.products.status);
-    const error = useSelector((state) => state.products.error);
-    const [limit, setLimit] = useState(8); // За замовчуванням завантажуємо 8 продуктів
+    const createdProducts = useSelector((state) => state.products.createdProducts);
+
+    const showPublished = useSelector((state) => state.products.showPublished);  // Отримуємо стан світчера з Redux
+
 
     useEffect(() => {
-        dispatch(fetchProducts(limit)); // Завантаження продуктів при зміні ліміту
-    }, [dispatch, limit]);
+        dispatch(fetchProducts(10)); // Змінити 10 на потрібну кількість
+    }, [dispatch]);
 
-    const handleLoadMore = (count) => {
-        setLimit(count);
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
     };
 
-    if (status === 'loading') {
-        return <CircularProgress />;
-    }
+    const handleDelete = (id) => {
+        if (window.confirm('Ви впевнені, що хочете видалити цей продукт?')) {
+            dispatch(deleteProduct(id));
+        }
+    };
 
-    if (status === 'failed') {
-        return <div>Error: {error}</div>;
-    }
+    const handleSwitchChange = (event) => {
+        dispatch(toggleShowPublished(event.target.checked));  // Оновлюємо стан світчера в Redux
+    };
 
     return (
-        <div>
-            <h2>Products List</h2>
-            <Grid container spacing={2}>
-                {products.map((product) => (
-                    <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
-                        <Card>
-                            <CardMedia
-                                component="img"
-                                height="140"
-                                image={product.image}
-                                alt={product.title}
-                            />
-                            <CardContent>
-                                <Typography gutterBottom variant="h6">
-                                    {product.title}
-                                </Typography>
-                                <Typography variant="body2" color="textSecondary">
-                                    ${product.price}
-                                </Typography>
-                                <Button
-                                    component={Link}
-                                    to={`/products/${product.id}`}
-                                    size="small"
-                                    variant="outlined"
-                                    color="primary"
-                                >
-                                    View Details
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                ))}
-            </Grid>
+        <Box sx={{ width: '100%' }}>
+            
+            <Tabs value={value} onChange={handleChange} aria-label="product tabs">
+                <Tab label="Продукти з API" />
+                <Tab label="Створені продукти" />
+            </Tabs>
 
-            {/* Кнопки для завантаження різної кількості продуктів */}
-            <div style={{ marginTop: '20px' }}>
-                <Button onClick={() => handleLoadMore(8)} variant="contained" color="primary">
-                    Load 8
-                </Button>
-                <Button onClick={() => handleLoadMore(16)} variant="contained" color="primary" style={{ marginLeft: '10px' }}>
-                    Load 16
-                </Button>
-                <Button onClick={() => handleLoadMore(20)} variant="contained" color="primary" style={{ marginLeft: '10px' }}>
-                    Load All
-                </Button>
-            </div>
-        </div>
+             {/* Додаємо світчер для фільтрації продуктів */}
+             <FormControlLabel
+                control={<Switch checked={showPublished} onChange={handleSwitchChange} />}
+                label={showPublished ? 'Показати опубліковані' : 'Показати неопубліковані'}
+            />
+
+            <Box sx={{ p: 3 }}>
+                {value === 0 && (
+                    <ProductsFromAPI />
+                )}
+                {value === 1 && (
+                    <CreatedProducts />
+                )}
+            </Box>
+        </Box>
     );
 };
 

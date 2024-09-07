@@ -48,6 +48,12 @@ const ProductDetails = () => {
                     <Typography variant="h6" color="textSecondary">
                         ${product.price}
                     </Typography>
+                    <Typography variant="h6" color="textSecondary">
+                        Category: {product.category}
+                    </Typography>
+                    <Typography variant="h6" color="textSecondary">
+                        Rating: {product.rating?.rate} / 5 ({product.rating?.count} reviews)
+                    </Typography>
                     <Typography variant="body1" color="textSecondary" paragraph>
                         {product.description}
                     </Typography>

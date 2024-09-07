@@ -19,13 +19,40 @@ export const createProduct = createAsyncThunk('products/createProduct', async (p
     return response.data;
 });
 
+// Асинхронний запит для оновлення продукту
+export const updateProductById = createAsyncThunk('products/updateProductById', async ({ id, updatedProduct }) => {
+    const response = await axios.put(`https://fakestoreapi.com/products/${id}`, updatedProduct);
+    return response.data;
+});
+
+// Асинхронний запит для видалення продукту
+export const deleteProductById = createAsyncThunk('products/deleteProductById', async (id) => {
+    await axios.delete(`https://fakestoreapi.com/products/${id}`);
+    return id;
+});
+
+// Функція для отримання даних з localStorage
+const getCreatedProductsFromLocalStorage = () => {
+    const savedProducts = localStorage.getItem('createdProducts');
+    return savedProducts ? JSON.parse(savedProducts) : [];
+};
+
+// Функція для збереження даних в localStorage
+const saveCreatedProductsToLocalStorage = (products) => {
+    localStorage.setItem('createdProducts', JSON.stringify(products));
+};
+
 const productsSlice = createSlice({
     name: 'products',
     initialState: {
         products: [],
-        createdProducts: [], // Продукти, створені через форму
+        // createdProducts: [], // Продукти, створені через форму
+        createdProducts: getCreatedProductsFromLocalStorage(), // Ініціалізація з localStorage
+
         status: 'idle', // idle, loading, succeeded, failed
         error: null,
+        showPublished: true, // Додаємо стан для фільтрації продуктів
+
     },
     reducers: {
         // Додавання нового продукту до створених продуктів
@@ -33,7 +60,7 @@ const productsSlice = createSlice({
             state.createdProducts.push(action.payload);
         },
         // Оновлення існуючого продукту
-        updateProduct: (state, action) => {
+        updateCreatedProduct: (state, action) => {
             const { id, updatedProduct } = action.payload;
             const index = state.createdProducts.findIndex((product) => product.id === id);
             if (index !== -1) {
@@ -41,8 +68,16 @@ const productsSlice = createSlice({
             }
         },
         // Видалення продукту
+        // removeCreatedProduct: (state, action) => {
+        //     state.createdProducts = state.createdProducts.filter((product) => product.id !== action.payload);
+        // },
         deleteProduct: (state, action) => {
             state.createdProducts = state.createdProducts.filter((product) => product.id !== action.payload);
+        },
+
+        // Додаємо нову дію для зміни стану світчера
+        toggleShowPublished: (state, action) => {
+            state.showPublished = action.payload; // Оновлюємо значення світчера в Redux store
         },
     },
     extraReducers: (builder) => {
@@ -68,11 +103,22 @@ const productsSlice = createSlice({
             .addCase(createProduct.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
+            })
+            .addCase(updateProductById.fulfilled, (state, action) => {
+                const { id, updatedProduct } = action.payload;
+                const index = state.createdProducts.findIndex(product => product.id === id);
+                if (index !== -1) {
+                    state.createdProducts[index] = updatedProduct;
+                }
+            })
+            .addCase(deleteProductById.fulfilled, (state, action) => {
+                state.createdProducts = state.createdProducts.filter(product => product.id !== action.payload);
             });
     },
 });
 
 // Експортуємо наші дії
-export const { addCreatedProduct, updateProduct, deleteProduct } = productsSlice.actions;
+// export const { addCreatedProduct, updateCreatedProduct, removeCreatedProduct } = productsSlice.actions;
+export const { toggleShowPublished, addCreatedProduct, updateProduct, deleteProduct } = productsSlice.actions;
 
 export default productsSlice.reducer;
