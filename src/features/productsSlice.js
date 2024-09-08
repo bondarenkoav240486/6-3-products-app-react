@@ -60,13 +60,13 @@ const productsSlice = createSlice({
     name: 'products',
     initialState: {
         products: [],
-        // createdProducts: [], // Продукти, створені через форму
         createdProducts: getCreatedProductsFromLocalStorage(), // Ініціалізація з localStorage
-
         status: 'idle', // idle, loading, succeeded, failed
         error: null,
         showPublished: true, // Додаємо стан для фільтрації продуктів
+        currentPage: 1,
 
+        sort: 'asc', // Додаємо стан для сортування
     },
     reducers: {
         // Додавання нового продукту до створених продуктів
@@ -95,10 +95,15 @@ const productsSlice = createSlice({
             saveCreatedProductsToLocalStorage(state.createdProducts); // Збереження в localStorage
 
         },
-
         // Дію для зміни стану світчера
         toggleShowPublished: (state, action) => {
             state.showPublished = action.payload; // Оновлюємо значення світчера в Redux store
+        },
+        setPage(state, action) {
+            state.currentPage = action.payload;
+        },
+        setSort: (state, action) => {
+            state.sort = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -141,6 +146,6 @@ const productsSlice = createSlice({
 
 // Експортуємо наші дії
 // export const { addCreatedProduct, updateCreatedProduct, removeCreatedProduct } = productsSlice.actions;
-export const { toggleShowPublished, addCreatedProduct, updateProduct, deleteCreatedProduct, updateCreatedProduct } = productsSlice.actions;
+export const { setSort, toggleShowPublished, addCreatedProduct, updateProduct, deleteCreatedProduct, updateCreatedProduct, setPage } = productsSlice.actions;
 
 export default productsSlice.reducer;

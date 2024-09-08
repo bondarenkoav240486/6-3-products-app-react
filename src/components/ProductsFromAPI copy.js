@@ -1,25 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts, setSort } from '../features/productsSlice';
+import { fetchProducts } from '../features/productsSlice';
 import { Link } from 'react-router-dom';
 import { Grid, Card, CardMedia, CardContent, Typography, Button, CircularProgress } from '@mui/material';
-
-import Pagination from './Pagination'; // Імпортуємо компонент пагінації
-
 
 const ProductsFromAPI = () => {
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products.products);
     const status = useSelector((state) => state.products.status);
     const error = useSelector((state) => state.products.error);
-
-    const currentPage = useSelector((state) => state.products.currentPage);
-    const itemsPerPage = 8;
-
     const [limit, setLimit] = useState(8); // За замовчуванням завантажуємо 8 продуктів
-
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const currentProducts = products.slice(startIndex, startIndex + itemsPerPage);
 
     useEffect(() => {
         dispatch(fetchProducts(limit)); // Завантаження продуктів при зміні ліміту
@@ -37,13 +27,11 @@ const ProductsFromAPI = () => {
         return <div>Error: {error}</div>;
     }
 
-    
-
     return (
         <div>
             <h2>Products List</h2>
             <Grid container spacing={2}>
-                {currentProducts.map((product) => (
+                {products.map((product) => (
                     <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
                         <Card>
                             <CardMedia
@@ -109,8 +97,6 @@ const ProductsFromAPI = () => {
                     Створити новий продукт
                 </Button>
             </div>
-            <Pagination totalItems={products.length} itemsPerPage={itemsPerPage}/>
-
         </div>
     );
 };
