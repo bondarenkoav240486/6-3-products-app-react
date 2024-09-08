@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct } from '../features/productsSlice';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
+import { Link } from 'react-router-dom'; // Імпортуємо Link
 
 const CreatedProducts = () => {
     const dispatch = useDispatch();
     const createdProducts = useSelector((state) => state.products.createdProducts);
     const showPublished = useSelector((state) => state.products.showPublished); // Отримання стану світчера
-
+    
     const handleDelete = (id) => {
         if (window.confirm('Are you sure you want to delete this product?')) {
             dispatch(deleteProduct(id));
@@ -34,7 +35,7 @@ const CreatedProducts = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {filteredProducts.map((product) => (
+                    {filteredProducts.map((product, index) => (
                         <TableRow key={product.id}>
                             <TableCell>{product.title}</TableCell>
                             <TableCell>{product.price}</TableCell>
@@ -52,6 +53,16 @@ const CreatedProducts = () => {
                                     onClick={() => handleDelete(product.id)}
                                 >
                                     Delete
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    component={Link}
+                                    // to={`/edit-product/${product.id}`} // Посилання на сторінку редагування
+                                    to={`/edit-product/${index}`} // Посилання на сторінку редагування
+                                    sx={{ ml: 2 }}
+                                >
+                                    Edit
                                 </Button>
                             </TableCell>
                         </TableRow>

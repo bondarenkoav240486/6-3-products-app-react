@@ -34,8 +34,24 @@ export const deleteProductById = createAsyncThunk('products/deleteProductById', 
 // Функція для отримання даних з localStorage
 const getCreatedProductsFromLocalStorage = () => {
     const savedProducts = localStorage.getItem('createdProducts');
-    return savedProducts ? JSON.parse(savedProducts) : [];
+    // Додаткова перевірка на null
+    if (savedProducts === null) {
+        return [];
+    }
+    if (savedProducts === false) {
+        return [];
+    }
+    try {
+        console.log(
+            JSON.parse(savedProducts)
+        )
+        return JSON.parse(savedProducts);
+    } catch (error) {
+        console.error('Error parsing localStorage item "createdProducts":', error);
+        return [];
+    }
 };
+
 
 // Функція для збереження даних в localStorage
 const saveCreatedProductsToLocalStorage = (products) => {
@@ -58,6 +74,7 @@ const productsSlice = createSlice({
         // Додавання нового продукту до створених продуктів
         addCreatedProduct: (state, action) => {
             state.createdProducts.push(action.payload);
+            saveCreatedProductsToLocalStorage(state.createdProducts); // Збереження в localStorage
         },
         // Оновлення існуючого продукту
         updateCreatedProduct: (state, action) => {
@@ -73,6 +90,8 @@ const productsSlice = createSlice({
         // },
         deleteProduct: (state, action) => {
             state.createdProducts = state.createdProducts.filter((product) => product.id !== action.payload);
+            saveCreatedProductsToLocalStorage(state.createdProducts); // Збереження в localStorage
+
         },
 
         // Додаємо нову дію для зміни стану світчера
