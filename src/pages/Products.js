@@ -7,7 +7,7 @@ import { fetchProducts, toggleShowPublished } from '../features/productsSlice';
 // import {  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Switch, FormControlLabel } from '@mui/material';
 import { Tabs, Tab, Box, Typography, List, ListItem, ListItemText, Button, FormControlLabel, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
-import { deleteProduct } from '../features/productsSlice';
+import { deleteCreatedProduct } from '../features/productsSlice';
 
 import ProductsFromAPI from '../components/ProductsFromAPI';
 import CreatedProducts from '../components/CreatedProducts';
@@ -31,7 +31,7 @@ const Products = () => {
 
     const handleDelete = (id) => {
         if (window.confirm('Ви впевнені, що хочете видалити цей продукт?')) {
-            dispatch(deleteProduct(id));
+            dispatch(deleteCreatedProduct(id));
         }
     };
 

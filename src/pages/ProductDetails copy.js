@@ -1,32 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { CircularProgress, Card, CardMedia, CardContent, Typography, Button } from '@mui/material';
+import { fetchProductById } from '../features/productsSlice';
 
 const ProductDetails = () => {
     const { id } = useParams();
-    const [product, setProduct] = useState(null);
-    const [status, setStatus] = useState('idle'); // 'idle', 'loading', 'succeeded', 'failed'
-    const [error, setError] = useState(null);
+    const dispatch = useDispatch();
+    const product = useSelector((state) =>
+        state.products.products.find((product) => product.id === parseInt(id))
+    );
+    const status = useSelector((state) => state.products.status);
+    const error = useSelector((state) => state.products.error);
 
     useEffect(() => {
-        const fetchProduct = async () => {
-            setStatus('loading');
-            try {
-                const response = await fetch(`https://fakestoreapi.com/products/${id}`);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setProduct(data);
-                setStatus('succeeded');
-            } catch (error) {
-                setError(error.message);
-                setStatus('failed');
-            }
-        };
-
-        fetchProduct();
-    }, [id]);
+        if (!product) {
+            dispatch(fetchProductById(id));
+        }
+    }, [dispatch, id, product]);
 
     if (status === 'loading') {
         return <CircularProgress />;

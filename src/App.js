@@ -10,6 +10,9 @@ import Header from './components/Header';
 
 import AddNewProductFakestoreapi from './components/AddNewProductFakestoreapi';
 
+import CreateAPIProduct from './pages/CreateAPIProduct';
+import EditAPIProduct from './pages/EditAPIProduct';
+
 // import CreatedProducts from './pages/CreatedProducts';/
 
 const App = () => {
@@ -24,6 +27,14 @@ const App = () => {
                     <Route path="/edit-product/:id" element={<EditProduct />} />
                    
                     <Route path="/add-api-product" element={<AddNewProductFakestoreapi />} />
+                    {/* /create-APIproduct */}
+                    <Route path="/create-APIproduct" element={<CreateAPIProduct />} />
+
+                    <Route path="/edit-APIproduct/:id" element={<EditAPIProduct />} />
+                    
+                    <Route path="/" element={<Products />} />
+
+
                 </Routes>
             </div>
         </Router>

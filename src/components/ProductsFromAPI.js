@@ -56,6 +56,17 @@ const ProductsFromAPI = () => {
                                 >
                                     View Details
                                 </Button>
+                                 {/* Додаємо кнопку для редагування продукту */}
+                                 <Button
+                                    component={Link}
+                                    to={`/edit-APIproduct/${product.id}`}
+                                    size="small"
+                                    variant="outlined"
+                                    color="secondary"
+                                    style={{ marginLeft: '10px' }}
+                                >
+                                    Edit
+                                </Button>
                             </CardContent>
                         </Card>
                     </Grid>

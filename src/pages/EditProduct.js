@@ -1,22 +1,31 @@
-// src/pages/EditProduct.js
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProductById, updateProduct, deleteProduct } from '../features/productsSlice';
+import { updateProduct } from '../features/productsSlice'; // Використовуємо дію оновлення продукту
 import { Button, TextField, FormControlLabel, Checkbox } from '@mui/material';
 
+// import { updateCreatedProduct } from '../features/productsSlice';
+import { updateCreatedProduct, deleteCreatedProduct } from '../features/productsSlice'; // Використовуємо дію для видалення
+
+
 const EditProduct = () => {
-    const { id } = useParams();
+    // const { id } = useParams();  // Отримуємо id з параметрів URL
+    const { id } = useParams(); // Отримуємо ID з URL
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const product = useSelector((state) => state.products.products.find((p) => p.id === parseInt(id)));
+    
+    // Отримуємо продукт з `createdProducts` за індексом
+    // const product = useSelector((state) => state.products.createdProducts[parseInt(id)]);
+    // Отримуємо продукт за його ID
+    const product = useSelector((state) => state.products.createdProducts.find((p) => p.id === id));
+
+
+
     const [formData, setFormData] = useState({
         title: '',
         price: '',
         description: '',
-        category: '',
-        image: '',
         published: false,
     });
 
@@ -26,14 +35,10 @@ const EditProduct = () => {
                 title: product.title,
                 price: product.price,
                 description: product.description,
-                category: product.category,
-                image: product.image,
                 published: product.published,
             });
-        } else {
-            dispatch(fetchProductById(id));
         }
-    }, [dispatch, id, product]);
+    }, [product]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -43,15 +48,25 @@ const EditProduct = () => {
         });
     };
 
-    const handleUpdate = () => {
-        dispatch(updateProduct({ id: parseInt(id), updatedProduct: formData }));
-    };
-
     const handleDelete = () => {
         if (window.confirm('Are you sure you want to delete this product?')) {
-            dispatch(deleteProduct(parseInt(id)));
-            navigate('/created-products');
+            dispatch(deleteCreatedProduct(id)); // Видаляємо продукт
+            navigate('/products'); // Переходимо до списку продуктів
         }
+    };
+
+    // const handleUpdate = () => {
+    //     const updatedProduct = { ...product, ...formData };
+    //     dispatch(updateProduct({ id: parseInt(id), updatedProduct }));  // Оновлюємо продукт у сторі
+    //     navigate('/products'); // Переходимо назад до списку продуктів
+    // };
+    // const handleUpdate = () => {
+    //     dispatch(updateCreatedProduct({ id, updatedProduct: formData })); // Оновлюємо продукт
+    //     navigate('/products'); // Повертаємося до списку
+    // };
+    const handleUpdate = () => {
+        dispatch(updateCreatedProduct({ id, updatedProduct: formData })); // Оновлюємо продукт за його ID
+        navigate('/products'); // Переходимо назад до списку продуктів
     };
 
     return (
@@ -68,6 +83,7 @@ const EditProduct = () => {
             <TextField
                 label="Price"
                 name="price"
+                type="number"
                 value={formData.price}
                 onChange={handleChange}
                 fullWidth
@@ -77,22 +93,6 @@ const EditProduct = () => {
                 label="Description"
                 name="description"
                 value={formData.description}
-                onChange={handleChange}
-                fullWidth
-                margin="normal"
-            />
-            <TextField
-                label="Category"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                fullWidth
-                margin="normal"
-            />
-            <TextField
-                label="Image URL"
-                name="image"
-                value={formData.image}
                 onChange={handleChange}
                 fullWidth
                 margin="normal"
@@ -110,7 +110,12 @@ const EditProduct = () => {
             <Button variant="contained" color="primary" onClick={handleUpdate}>
                 Update Product
             </Button>
-            <Button variant="contained" color="secondary" onClick={handleDelete} style={{ marginLeft: '10px' }}>
+            <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleDelete}
+                style={{ marginLeft: '10px' }}
+            >
                 Delete Product
             </Button>
         </div>

@@ -1,26 +1,17 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { addCreatedProduct } from '../features/productsSlice'; // Переконайтесь, що createProduct імплементується правильно
-
-import { useNavigate } from 'react-router-dom'; // Імпортуємо useNavigate для перенаправлення
-
-
 import { TextField, Button, FormControlLabel, Checkbox, CircularProgress } from '@mui/material';
 
 const CreateProduct = () => {
-    const dispatch = useDispatch();
-    const status = useSelector((state) => state.products.status);
     const [product, setProduct] = useState({
         title: '',
         price: '',
         description: '',
+        image: '',
+        category: '',
         published: false
     });
     const [errors, setErrors] = useState({});
-
-    const navigate = useNavigate(); // Ініціалізуємо useNavigate
-
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -36,33 +27,58 @@ const CreateProduct = () => {
         if (!product.price) newErrors.price = 'Price is required';
         else if (isNaN(product.price) || parseFloat(product.price) <= 0) newErrors.price = 'Price must be a positive number';
         if (!product.description) newErrors.description = 'Description is required';
+        if (!product.category) newErrors.category = 'Category is required';
+        if (!product.image) newErrors.image = 'Image URL is required';
         return newErrors;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
-        } else {
-            // Add creation date before dispatching the action
-            const productWithDate = { ...product, createdAt: new Date().toISOString() };
-            dispatch(addCreatedProduct(productWithDate));
-            // Очищаємо форму
+            return;
+        }
+        
+        setLoading(true);
+
+        try {
+            const response = await fetch('https://fakestoreapi.com/products', {
+                method: 'POST',
+                body: JSON.stringify({
+                    title: product.title,
+                    price: parseFloat(product.price),
+                    description: product.description,
+                    image: product.image,
+                    category: product.category
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+            console.log('Product created:', data);
+            alert('Продукт створено і виведено у консоль')
+            // Очищення форми після успішного створення продукту
             setProduct({
                 title: '',
                 price: '',
                 description: '',
-                published: false
+                image: '',
+                category: '',
             });
-            navigate('/products'); // Переходимо назад до списку продуктів
+            // Можна перенаправити на список продуктів або показати повідомлення
+        } catch (error) {
+            console.error('Error creating product:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div>
-            <h2>Create Product</h2>
-            {status === 'loading' && <CircularProgress />}
+            <h2>Create Product via API</h2>
+            {loading && <CircularProgress />}
             <form onSubmit={handleSubmit}>
                 <TextField
                     label="Title"
@@ -97,17 +113,27 @@ const CreateProduct = () => {
                     error={Boolean(errors.description)}
                     helperText={errors.description}
                 />
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            name="published"
-                            checked={product.published}
-                            onChange={handleChange}
-                        />
-                    }
-                    label="Published"
+                <TextField
+                    label="Image URL"
+                    name="image"
+                    value={product.image}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.image)}
+                    helperText={errors.image}
                 />
-                <Button type="submit" variant="contained" color="primary">
+                <TextField
+                    label="Category"
+                    name="category"
+                    value={product.category}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    error={Boolean(errors.category)}
+                    helperText={errors.category}
+                />
+                <Button type="submit" variant="contained" color="primary" disabled={loading}>
                     Add Product
                 </Button>
             </form>

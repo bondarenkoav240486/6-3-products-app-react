@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteProduct } from '../features/productsSlice';
+import { deleteCreatedProduct } from '../features/productsSlice';
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 import { Link } from 'react-router-dom'; // Імпортуємо Link
@@ -10,9 +10,15 @@ const CreatedProducts = () => {
     const createdProducts = useSelector((state) => state.products.createdProducts);
     const showPublished = useSelector((state) => state.products.showPublished); // Отримання стану світчера
     
-    const handleDelete = (id) => {
+    // const handleDelete = (id) => {
+    //     if (window.confirm('Are you sure you want to delete this product?')) {
+    //         dispatch(deleteCreatedProduct(id));
+    //     }
+    // };
+
+     const handleDelete = (id) => {
         if (window.confirm('Are you sure you want to delete this product?')) {
-            dispatch(deleteProduct(id));
+            dispatch(deleteCreatedProduct(id)); // Викликаємо дію для видалення продукту
         }
     };
 
@@ -47,10 +53,17 @@ const CreatedProducts = () => {
                             <TableCell>{product.createdAt}</TableCell>
                             <TableCell>{product.published ? 'Yes' : 'No'}</TableCell>
                             <TableCell>
-                                <Button
+                                {/* <Button
                                     variant="contained"
                                     color="secondary"
                                     onClick={() => handleDelete(product.id)}
+                                >
+                                    Delete
+                                </Button> */}
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() => handleDelete(product.id)} // Видалення продукту
                                 >
                                     Delete
                                 </Button>
@@ -59,7 +72,9 @@ const CreatedProducts = () => {
                                     color="primary"
                                     component={Link}
                                     // to={`/edit-product/${product.id}`} // Посилання на сторінку редагування
-                                    to={`/edit-product/${index}`} // Посилання на сторінку редагування
+                                    // to={`/edit-product/${index}`} // Посилання на сторінку редагування
+                                    to={`/edit-product/${product.id}`} // Передаємо унікальний ID продукту
+
                                     sx={{ ml: 2 }}
                                 >
                                     Edit

@@ -11,6 +11,7 @@ const Header = () => {
                 </Typography>
                 <Button color="inherit" component={Link} to="/products">Products</Button>
                 <Button color="inherit" component={Link} to="/create-product">Create Product</Button>
+                <Button color="inherit" component={Link} to="/create-APIproduct">Create API Product</Button>
             </Toolbar>
         </AppBar>
     );
