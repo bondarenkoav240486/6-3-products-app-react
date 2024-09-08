@@ -1,4 +1,3 @@
-// src/pages/ProtectedPage.js
 import React from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -12,10 +11,8 @@ const ProtectedPage = () => {
     const handleLogout = () => {
         // Видаляємо токен з локального сховища
         localStorage.removeItem('token');
-        
         // Очищаємо стан авторизації в Redux
         dispatch(logout());
-
         // Перенаправляємо на сторінку логіну
         navigate('/login');
     };

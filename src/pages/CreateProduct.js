@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { addCreatedProduct } from '../features/productsSlice'; // Переконайтесь, що createProduct імплементується правильно
-
+import { addCreatedProduct } from '../features/productsSlice'; 
 import { useNavigate } from 'react-router-dom'; // Імпортуємо useNavigate для перенаправлення
-
-
 import { TextField, Button, FormControlLabel, Checkbox, CircularProgress } from '@mui/material';
 
 const CreateProduct = () => {
@@ -20,7 +16,6 @@ const CreateProduct = () => {
     const [errors, setErrors] = useState({});
 
     const navigate = useNavigate(); // Ініціалізуємо useNavigate
-
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;

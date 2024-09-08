@@ -10,12 +10,9 @@ const Login = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-
-
+    
     const handleLogin = async (e) => {
         e.preventDefault();
-
         try {
             const response = await fetch('https://fakestoreapi.com/auth/login', {
                 method: 'POST',

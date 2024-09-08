@@ -1,6 +1,4 @@
-// src/features/authSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-// Function to get the initial authentication state from localStorage
 const getInitialAuthState = () => {
     const token = localStorage.getItem('token');
     return {

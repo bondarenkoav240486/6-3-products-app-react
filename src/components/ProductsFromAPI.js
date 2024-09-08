@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setProducts, fetchFilteredProducts, fetchProducts, setSort, fetchProductsWithSort } from '../features/productsSlice';
 
 import { Link } from 'react-router-dom';
-// import { Grid, Card, CardMedia, CardContent, Typography, Button, CircularProgress } from '@mui/material';
 import { TextField, Grid, Card, CardMedia, CardContent, Typography, Button, CircularProgress, FormControl, InputLabel, Select, MenuItem } from '@mui/material'; // Додати імпорти тут
 
 import Pagination from './Pagination'; // Імпортуємо компонент пагінації
@@ -16,7 +15,6 @@ const ProductsFromAPI = () => {
     const error = useSelector((state) => state.products.error);
     const currentPage = useSelector((state) => state.products.currentPage);
     const sort = useSelector((state) => state.products.sort);
-    // const products = useSelector((state) => state.products.products); // Основний масив продуктів
     const [searchTerm, setSearchTerm] = useState(''); // Стан для збереження введеного тексту
     const [filteredProducts, setFilteredProducts] = useState(products);
     
@@ -58,7 +56,7 @@ const ProductsFromAPI = () => {
     };
 
     const startIndex = (currentPage - 1) * itemsPerPage;
-    
+
     // const currentProducts = products.slice(startIndex, startIndex + itemsPerPage);
     const currentProducts = filteredProducts.slice(startIndex, startIndex + 8);
 

@@ -3,25 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProduct } from '../features/productsSlice'; // Використовуємо дію оновлення продукту
 import { Button, TextField, FormControlLabel, Checkbox } from '@mui/material';
-
-// import { updateCreatedProduct } from '../features/productsSlice';
 import { updateCreatedProduct, deleteCreatedProduct } from '../features/productsSlice'; // Використовуємо дію для видалення
 
-
 const EditProduct = () => {
-    // const { id } = useParams();  // Отримуємо id з параметрів URL
     const { id } = useParams(); // Отримуємо ID з URL
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    
-    // Отримуємо продукт з `createdProducts` за індексом
-    // const product = useSelector((state) => state.products.createdProducts[parseInt(id)]);
-    // Отримуємо продукт за його ID
     const product = useSelector((state) => state.products.createdProducts.find((p) => p.id === id));
-
-
-
     const [formData, setFormData] = useState({
         title: '',
         price: '',
@@ -54,16 +42,7 @@ const EditProduct = () => {
             navigate('/products'); // Переходимо до списку продуктів
         }
     };
-
-    // const handleUpdate = () => {
-    //     const updatedProduct = { ...product, ...formData };
-    //     dispatch(updateProduct({ id: parseInt(id), updatedProduct }));  // Оновлюємо продукт у сторі
-    //     navigate('/products'); // Переходимо назад до списку продуктів
-    // };
-    // const handleUpdate = () => {
-    //     dispatch(updateCreatedProduct({ id, updatedProduct: formData })); // Оновлюємо продукт
-    //     navigate('/products'); // Повертаємося до списку
-    // };
+   
     const handleUpdate = () => {
         dispatch(updateCreatedProduct({ id, updatedProduct: formData })); // Оновлюємо продукт за його ID
         navigate('/products'); // Переходимо назад до списку продуктів

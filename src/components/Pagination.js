@@ -7,7 +7,6 @@ import { setPage } from '../features/productsSlice'; // Дію для оновл
 const Pagination = ({ totalItems, itemsPerPage }) => {
     const dispatch = useDispatch();
     const currentPage = useSelector((state) => state.products.currentPage);
-    // const itemsPerPage = 5; // Кількість елементів на сторінці
 
     const handlePageChange = (event, value) => {
         dispatch(setPage(value)); // Оновлюємо поточну сторінку в Redux

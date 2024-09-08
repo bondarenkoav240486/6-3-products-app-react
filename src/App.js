@@ -10,8 +10,11 @@ import Login from './pages/Login';
 import ProtectedPage from './pages/ProtectedPage'; // компонент для захищеної сторінки
 import CreateAPIProduct from './pages/CreateAPIProduct';
 import { useSelector } from 'react-redux';
-
 import EditAPIProduct from './pages/EditAPIProduct';
+
+import './App.css';
+
+
 
 const App = () => {
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);

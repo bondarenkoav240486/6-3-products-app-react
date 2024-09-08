@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { fetchProducts } from '../features/productsSlice';
 import { fetchProducts, toggleShowPublished } from '../features/productsSlice';  
-
-// import { Taю.bs, Tab, Box, Typography, List, ListItem, ListItemText, Button, FormControlLabel  } from '@mui/material';
-// import {  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Switch, FormControlLabel } from '@mui/material';
 import { Tabs, Tab, Box, Typography, List, ListItem, ListItemText, Button, FormControlLabel, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-
 import { deleteCreatedProduct } from '../features/productsSlice';
-
 import ProductsFromAPI from '../components/ProductsFromAPI';
 import CreatedProducts from '../components/CreatedProducts';
 
@@ -36,18 +30,15 @@ const Products = () => {
 
     return (
         <Box sx={{ width: '100%' }}>
-            
             <Tabs value={value} onChange={handleChange} aria-label="product tabs">
                 <Tab label="Продукти з API" />
                 <Tab label="Створені продукти" />
             </Tabs>
-
              {/* Додаємо світчер для фільтрації продуктів */}
              <FormControlLabel
                 control={<Switch checked={showPublished} onChange={handleSwitchChange} />}
                 label={showPublished ? 'Показати опубліковані' : 'Показати неопубліковані'}
             />
-
             <Box sx={{ p: 3 }}>
                 {value === 0 && (
                     <ProductsFromAPI />

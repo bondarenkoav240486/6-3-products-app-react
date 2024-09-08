@@ -18,9 +18,6 @@ export const fetchFilteredProducts = createAsyncThunk('products/fetchFilteredPro
     return response.data;
 });
 
-
-
-
 // Функція для отримання даних з localStorage
 const getCreatedProductsFromLocalStorage = () => {
     const savedProducts = localStorage.getItem('createdProducts');
@@ -38,8 +35,6 @@ const getCreatedProductsFromLocalStorage = () => {
         return [];
     }
 };
-
-
 // Функція для збереження даних в localStorage
 const saveCreatedProductsToLocalStorage = (products) => {
     localStorage.setItem('createdProducts', JSON.stringify(products));
@@ -54,7 +49,6 @@ const productsSlice = createSlice({
         error: null,
         showPublished: true, // Додаємо стан для фільтрації продуктів
         currentPage: 1,
-
         sort: 'asc', // Додаємо стан для сортування
     },
     reducers: {
@@ -77,7 +71,6 @@ const productsSlice = createSlice({
         deleteCreatedProduct: (state, action) => {
             state.createdProducts = state.createdProducts.filter((product) => product.id !== action.payload);
             saveCreatedProductsToLocalStorage(state.createdProducts); // Збереження в localStorage
-
         },
         // Дію для зміни стану світчера
         toggleShowPublished: (state, action) => {
@@ -134,7 +127,6 @@ const productsSlice = createSlice({
 });
 
 // Експортуємо наші дії
-// export const { addCreatedProduct, updateCreatedProduct, removeCreatedProduct } = productsSlice.actions;
 export const { setProducts, setSort, toggleShowPublished, addCreatedProduct, updateProduct, deleteCreatedProduct, updateCreatedProduct, setPage } = productsSlice.actions;
 
 export default productsSlice.reducer;
