@@ -20,11 +20,6 @@ const Products = () => {
 
     const showPublished = useSelector((state) => state.products.showPublished);  // Отримуємо стан світчера з Redux
 
-
-    useEffect(() => {
-        dispatch(fetchProducts(10)); // Змінити 10 на потрібну кількість
-    }, [dispatch]);
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };

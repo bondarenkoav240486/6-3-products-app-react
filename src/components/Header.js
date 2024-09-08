@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
     return (
         <AppBar position="static">
             <Toolbar>
@@ -12,6 +15,13 @@ const Header = () => {
                 <Button color="inherit" component={Link} to="/products">Products</Button>
                 <Button color="inherit" component={Link} to="/create-product">Create Product</Button>
                 <Button color="inherit" component={Link} to="/create-APIproduct">Create API Product</Button>
+                {isAuthenticated
+                    ?
+                    <Button color="inherit" component={Link} to="/protected">ProtectedPage</Button>
+                    :
+                    ''
+                }
+                <Button color="inherit" component={Link} to="/login">Login</Button>
             </Toolbar>
         </AppBar>
     );

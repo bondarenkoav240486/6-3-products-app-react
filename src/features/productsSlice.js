@@ -7,30 +7,19 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async (l
     const response = await axios.get(`/products?limit=${limit}`);
     return response.data;
 });
+// Оновлюємо асинхронний запит для отримання продуктів із сортуванням
+export const fetchProductsWithSort = createAsyncThunk('products/fetchProductsWithSort', async ({ limit, sort }) => {
+    const response = await fetch(`https://fakestoreapi.com/products?sort=${sort}`);
+    const data = await response.json();
+    return data;
+});
+export const fetchFilteredProducts = createAsyncThunk('products/fetchFilteredProducts', async (category) => {
+    const response = await axios.get(`/products/category/${category}`);
+    return response.data;
+});
 
-// Асинхронний запит для отримання продукту за ID
-// export const fetchProductById = createAsyncThunk('products/fetchProductById', async (id) => {
-//     const response = await axios.get(`https://fakestoreapi.com/products/${id}`);
-//     return response.data;
-// });
 
-// Асинхронний запит для створення продукту
-// export const createProduct = createAsyncThunk('products/createProduct', async (product) => {
-//     const response = await axios.post('https://fakestoreapi.com/products', product);
-//     return response.data;
-// });
 
-// Асинхронний запит для оновлення продукту
-// export const updateProductById = createAsyncThunk('products/updateProductById', async ({ id, updatedProduct }) => {
-//     const response = await axios.put(`https://fakestoreapi.com/products/${id}`, updatedProduct);
-//     return response.data;
-// });
-
-// Асинхронний запит для видалення продукту
-// export const deleteProductById = createAsyncThunk('products/deleteProductById', async (id) => {
-//     await axios.delete(`https://fakestoreapi.com/products/${id}`);
-//     return id;
-// });
 
 // Функція для отримання даних з localStorage
 const getCreatedProductsFromLocalStorage = () => {
@@ -69,11 +58,6 @@ const productsSlice = createSlice({
         sort: 'asc', // Додаємо стан для сортування
     },
     reducers: {
-        // Додавання нового продукту до створених продуктів
-        // addCreatedProduct: (state, action) => {
-        //     state.createdProducts.push(action.payload);
-        //     saveCreatedProductsToLocalStorage(state.createdProducts); // Збереження в localStorage
-        // },
         // Додавання нового продукту з унікальним ID
         addCreatedProduct: (state, action) => {
             const newProduct = { ...action.payload, id: uuidv4() }; // Генеруємо унікальний ID для продукту
@@ -105,6 +89,9 @@ const productsSlice = createSlice({
         setSort: (state, action) => {
             state.sort = action.payload;
         },
+        setProducts: (state, action) => {
+            state.products = action.payload; // Перезаписуємо продукти після пошуку
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -119,33 +106,35 @@ const productsSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message;
             })
-            // .addCase(createProduct.pending, (state) => {
-            //     state.status = 'loading';
-            // })
-            // .addCase(createProduct.fulfilled, (state, action) => {
-            //     state.status = 'succeeded';
-            //     // Додаємо новий продукт на початок списку продуктів
-            //     state.products = [action.payload, ...state.products];
-            // })
-            // .addCase(createProduct.rejected, (state, action) => {
-            //     state.status = 'failed';
-            //     state.error = action.error.message;
-            // })
-            // .addCase(updateProductById.fulfilled, (state, action) => {
-            //     const { id, updatedProduct } = action.payload;
-            //     const index = state.createdProducts.findIndex(product => product.id === id);
-            //     if (index !== -1) {
-            //         state.createdProducts[index] = updatedProduct;
-            //     }
-            // })
-            // .addCase(deleteProductById.fulfilled, (state, action) => {
-            //     state.createdProducts = state.createdProducts.filter(product => product.id !== action.payload);
-            // });
+            // Обробляємо випадок, коли використовується запит із сортуванням
+            .addCase(fetchProductsWithSort.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchProductsWithSort.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.products = action.payload; // Оновлюємо продукти
+            })
+            .addCase(fetchProductsWithSort.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+            // Додаємо обробку фільтрованих продуктів
+            .addCase(fetchFilteredProducts.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchFilteredProducts.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.products = action.payload;
+            })
+            .addCase(fetchFilteredProducts.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
     },
 });
 
 // Експортуємо наші дії
 // export const { addCreatedProduct, updateCreatedProduct, removeCreatedProduct } = productsSlice.actions;
-export const { setSort, toggleShowPublished, addCreatedProduct, updateProduct, deleteCreatedProduct, updateCreatedProduct, setPage } = productsSlice.actions;
+export const { setProducts, setSort, toggleShowPublished, addCreatedProduct, updateProduct, deleteCreatedProduct, updateCreatedProduct, setPage } = productsSlice.actions;
 
 export default productsSlice.reducer;
