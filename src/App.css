@@ -23,9 +23,9 @@ header .MuiToolbar-root {
   margin: 0 auto;
 }
 
-.ProductsFromAPI .Category,
-.ProductsFromAPI .Sort {
-  width: 20rem;
+.ProductsFromAPI .Category, .ProductsFromAPI .Sort {
+  max-width: 20rem;
+  width: 100%;
 }
 
 .ProductsFromAPI .currentProductsAPI {
