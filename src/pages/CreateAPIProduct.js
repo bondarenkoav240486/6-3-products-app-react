@@ -220,7 +220,10 @@ const AddNewProductFakestoreapi = () => {
     };
 
     return (
-        <Box sx={{ width: '100%', maxWidth: 600, mx: 'auto' }}>
+        <Box
+            // sx={{ width: '100%', maxWidth: 600, mx: 'auto' }}
+            className="page_with_form"
+        >
             <Typography variant="h4" gutterBottom>
                 Створити новий продукт API
             </Typography>

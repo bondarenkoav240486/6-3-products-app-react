@@ -55,7 +55,7 @@ const CreateProduct = () => {
     };
 
     return (
-        <div>
+        <div  className='page_with_form'>
             <h2>Create Product</h2>
             {status === 'loading' && <CircularProgress />}
             <form onSubmit={handleSubmit}>

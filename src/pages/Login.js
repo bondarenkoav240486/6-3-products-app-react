@@ -10,7 +10,7 @@ const Login = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    
+
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -47,7 +47,9 @@ const Login = () => {
     };
 
     return (
-        <div>
+        <div
+            className="page_with_form"
+        >
             <h2>Login</h2>
             <form onSubmit={handleLogin}>
                 <TextField
