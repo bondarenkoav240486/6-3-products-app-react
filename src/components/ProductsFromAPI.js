@@ -15,7 +15,7 @@ const ProductsFromAPI = () => {
     const sort = useSelector((state) => state.products.sort);
     const [searchTerm, setSearchTerm] = useState(''); // Стан для збереження введеного тексту
     const [filteredProducts, setFilteredProducts] = useState(products);
-    
+
     // Debouncing search input
     const debounceTimeout = 500;
     let debounceTimer;
@@ -95,7 +95,7 @@ const ProductsFromAPI = () => {
                 onChange={handleSearchChange}
                 margin="normal"
             />
-            <FormControl fullWidth margin="normal"  className='Category'>
+            <FormControl fullWidth margin="normal" className='Category'>
                 <InputLabel>Category</InputLabel>
                 <Select
                     value={category}
@@ -108,8 +108,8 @@ const ProductsFromAPI = () => {
                     <MenuItem value="women's clothing">Women's Clothing</MenuItem>
                 </Select>
             </FormControl>
-            <br/>
-            <FormControl fullWidth margin="normal"  className='Sort'>
+            <br />
+            <FormControl fullWidth margin="normal" className='Sort'>
                 <InputLabel>Sort</InputLabel>
                 <Select
                     value={sort}
@@ -137,26 +137,28 @@ const ProductsFromAPI = () => {
                                 <Typography variant="body2" color="textSecondary">
                                     ${product.price}
                                 </Typography>
-                                <Button
-                                    component={Link}
-                                    to={`/products/${product.id}`}
-                                    size="small"
-                                    variant="outlined"
-                                    color="primary"
-                                >
-                                    View Details
-                                </Button>
-                                {/* Додаємо кнопку для редагування продукту */}
-                                <Button
-                                    component={Link}
-                                    to={`/edit-APIproduct/${product.id}`}
-                                    size="small"
-                                    variant="outlined"
-                                    color="secondary"
-                                    style={{ marginLeft: '10px' }}
-                                >
-                                    Edit
-                                </Button>
+                                <div className='buttons_actions'>
+                                    <Button
+                                        component={Link}
+                                        to={`/products/${product.id}`}
+                                        size="small"
+                                        variant="outlined"
+                                        color="primary"
+                                    >
+                                        View Details
+                                    </Button>
+                                    {/* Додаємо кнопку для редагування продукту */}
+                                    <Button
+                                        component={Link}
+                                        to={`/edit-APIproduct/${product.id}`}
+                                        size="small"
+                                        variant="outlined"
+                                        color="secondary"
+                                        style={{ marginLeft: '10px' }}
+                                    >
+                                        Edit
+                                    </Button>
+                                </div>
                             </CardContent>
                         </Card>
                     </Grid>
