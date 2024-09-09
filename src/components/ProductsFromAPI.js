@@ -82,7 +82,6 @@ const ProductsFromAPI = () => {
         return <div>Error: {error}</div>;
     }
 
-debugger
     return (
         <div className='ProductsFromAPI'>
             <h2>Products API List</h2>
@@ -181,7 +180,7 @@ debugger
             <div style={{ marginTop: '20px' }}>
                 <Button
                     component={Link}
-                    to="/add-api-product"
+                    to="/create-APIproduct"
                     variant="contained"
                     color="secondary"
                 >

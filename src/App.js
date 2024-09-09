@@ -5,7 +5,6 @@ import ProductDetails from './pages/ProductDetails';
 import CreateProduct from './pages/CreateProduct';
 import EditProduct from './pages/EditProduct';
 import Header from './components/Header';
-import AddNewProductFakestoreapi from './components/AddNewProductFakestoreapi';
 import Login from './pages/Login';
 import ProtectedPage from './pages/ProtectedPage'; // компонент для захищеної сторінки
 import CreateAPIProduct from './pages/CreateAPIProduct';
@@ -35,7 +34,6 @@ const App = () => {
                     <Route path="/products/:id" element={<ProductDetails />} />
                     <Route path="/create-product" element={<CreateProduct />} />
                     <Route path="/edit-product/:id" element={<EditProduct />} />
-                    <Route path="/add-api-product" element={<AddNewProductFakestoreapi />} />
                     <Route path="/create-APIproduct" element={<CreateAPIProduct />} />
                     <Route path="/edit-APIproduct/:id" element={<EditAPIProduct />} />
                     <Route path="/" element={<Products />} />
