@@ -85,6 +85,11 @@ const productsSlice = createSlice({
         setProducts: (state, action) => {
             state.products = action.payload; // Перезаписуємо продукти після пошуку
         },
+        addProductAPIToState: (state, action) => {
+            // Додавання нового продукту до масиву
+            // state.products.push(action.payload);
+            state.products.unshift(action.payload);
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -127,6 +132,6 @@ const productsSlice = createSlice({
 });
 
 // Експортуємо наші дії
-export const { setProducts, setSort, toggleShowPublished, addCreatedProduct, updateProduct, deleteCreatedProduct, updateCreatedProduct, setPage } = productsSlice.actions;
+export const {addProductAPIToState, addProductToState, setProducts, setSort, toggleShowPublished, addCreatedProduct, updateProduct, deleteCreatedProduct, updateCreatedProduct, setPage } = productsSlice.actions;
 
 export default productsSlice.reducer;

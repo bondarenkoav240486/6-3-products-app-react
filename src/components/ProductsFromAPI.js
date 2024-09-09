@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProducts, fetchFilteredProducts, fetchProducts, setSort, fetchProductsWithSort } from '../features/productsSlice';
-
 import { Link } from 'react-router-dom';
 import { TextField, Grid, Card, CardMedia, CardContent, Typography, Button, CircularProgress, FormControl, InputLabel, Select, MenuItem } from '@mui/material'; // Додати імпорти тут
-
 import Pagination from './Pagination'; // Імпортуємо компонент пагінації
 
 
@@ -84,9 +82,9 @@ const ProductsFromAPI = () => {
         return <div>Error: {error}</div>;
     }
 
-
+debugger
     return (
-        <div>
+        <div className='ProductsFromAPI'>
             <h2>Products API List</h2>
 
             {/* Поле пошуку */}
@@ -98,7 +96,7 @@ const ProductsFromAPI = () => {
                 onChange={handleSearchChange}
                 margin="normal"
             />
-            <FormControl fullWidth margin="normal">
+            <FormControl fullWidth margin="normal"  className='Category'>
                 <InputLabel>Category</InputLabel>
                 <Select
                     value={category}
@@ -111,7 +109,8 @@ const ProductsFromAPI = () => {
                     <MenuItem value="women's clothing">Women's Clothing</MenuItem>
                 </Select>
             </FormControl>
-            <FormControl fullWidth margin="normal">
+            <br/>
+            <FormControl fullWidth margin="normal"  className='Sort'>
                 <InputLabel>Sort</InputLabel>
                 <Select
                     value={sort}
@@ -122,7 +121,7 @@ const ProductsFromAPI = () => {
                     <MenuItem value="desc">Descending</MenuItem>
                 </Select>
             </FormControl>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} className='currentProductsAPI'>
                 {currentProducts.map((product) => (
                     <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
                         <Card>

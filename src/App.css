@@ -1,18 +1,57 @@
+header
+.MuiToolbar-root
+{
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.Wrapper {
+  padding: 20px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.ProductsFromAPI
+.Category,
+.ProductsFromAPI
+.Sort
+{
+  width: 20rem;
+}
+
+.ProductsFromAPI
+.currentProductsAPI
+{
+  margin-top: 1.51rem;
+}
+
+.ProductsFromAPI
 .MuiCardMedia-root {
   width: auto !important;
   margin: 2.09rem auto;
 }
 
-.MuiGrid-root 
-.MuiGrid-item
+.ProductsFromAPI
+.MuiGrid-root.MuiGrid-item
 {
-  padding-left: 16px;
+  /* padding-left: 16px; */
   display: flex;
   justify-content: center;
 }
 
-.MuiPaper-root 
-.MuiPaper-elevation
+.ProductsFromAPI
+.currentProductsAPI
+.MuiPaper-root.MuiPaper-elevation
 {
   width: 100%;
 }
+
+.ProductDetails
+img
+{
+  width: auto;
+  margin: 0 auto;
+}
+

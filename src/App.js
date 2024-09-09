@@ -22,7 +22,7 @@ const App = () => {
     return (
         <Router>
             <Header />
-            <div style={{ padding: '20px' }}>
+            <div style={{ padding: '20px' }} className='Wrapper'>
                 <Routes>
                     <Route path="/login" element={<Login />} />
                     <Route

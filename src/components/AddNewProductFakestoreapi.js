@@ -103,15 +103,6 @@ const AddNewProductFakestoreapi = () => {
                     fullWidth
                     margin="normal"
                 />
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={published}
-                            onChange={(e) => setPublished(e.target.checked)}
-                        />
-                    }
-                    label="Опубліковано"
-                />
                 {error && <Typography color="error">{error}</Typography>}
                 {success && <Typography color="primary">{success}</Typography>}
                 <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>

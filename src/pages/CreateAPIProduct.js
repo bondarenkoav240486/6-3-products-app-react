@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { TextField, Button, FormControlLabel, Checkbox, CircularProgress } from '@mui/material';
+import { TextField, Button, FormControlLabel, Checkbox, CircularProgress, Box, Typography } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { addProductAPIToState } from '../features/productsSlice'; // Імпорт екшену
 
 const CreateProduct = () => {
     const [product, setProduct] = useState({
@@ -12,6 +14,7 @@ const CreateProduct = () => {
     });
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -39,7 +42,7 @@ const CreateProduct = () => {
             setErrors(validationErrors);
             return;
         }
-        
+
         setLoading(true);
 
         try {
@@ -57,6 +60,10 @@ const CreateProduct = () => {
                 }
             });
             const data = await response.json();
+
+            // Додаємо створений продукт до Redux state
+            dispatch(addProductAPIToState(data));
+
             console.log('Product created:', data);
             alert('Продукт створено і виведено у консоль')
             // Очищення форми після успішного створення продукту
@@ -77,66 +84,71 @@ const CreateProduct = () => {
 
     return (
         <div>
-            <h2>Create Product via API</h2>
+            {/* <h2>Create Product via API</h2> */}
             {loading && <CircularProgress />}
-            <form onSubmit={handleSubmit}>
-                <TextField
-                    label="Title"
-                    name="title"
-                    value={product.title}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.title)}
-                    helperText={errors.title}
-                />
-                <TextField
-                    label="Price"
-                    name="price"
-                    type="number"
-                    value={product.price}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.price)}
-                    helperText={errors.price}
-                />
-                <TextField
-                    label="Description"
-                    name="description"
-                    value={product.description}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    multiline
-                    rows={4}
-                    error={Boolean(errors.description)}
-                    helperText={errors.description}
-                />
-                <TextField
-                    label="Image URL"
-                    name="image"
-                    value={product.image}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.image)}
-                    helperText={errors.image}
-                />
-                <TextField
-                    label="Category"
-                    name="category"
-                    value={product.category}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    error={Boolean(errors.category)}
-                    helperText={errors.category}
-                />
-                <Button type="submit" variant="contained" color="primary" disabled={loading}>
-                    Add Product
-                </Button>
-            </form>
+            <Box sx={{ width: '100%', maxWidth: 600, mx: 'auto' }}>
+                <Typography variant="h4" gutterBottom>
+                    Create Product via API
+                </Typography>
+                <form onSubmit={handleSubmit}>
+                    <TextField
+                        label="Title"
+                        name="title"
+                        value={product.title}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.title)}
+                        helperText={errors.title}
+                    />
+                    <TextField
+                        label="Price"
+                        name="price"
+                        type="number"
+                        value={product.price}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.price)}
+                        helperText={errors.price}
+                    />
+                    <TextField
+                        label="Description"
+                        name="description"
+                        value={product.description}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        multiline
+                        rows={4}
+                        error={Boolean(errors.description)}
+                        helperText={errors.description}
+                    />
+                    <TextField
+                        label="Image URL"
+                        name="image"
+                        value={product.image}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.image)}
+                        helperText={errors.image}
+                    />
+                    <TextField
+                        label="Category"
+                        name="category"
+                        value={product.category}
+                        onChange={handleChange}
+                        fullWidth
+                        margin="normal"
+                        error={Boolean(errors.category)}
+                        helperText={errors.category}
+                    />
+                    <Button type="submit" variant="contained" color="primary" disabled={loading}>
+                        Add Product
+                    </Button>
+                </form>
+            </Box>
         </div>
     );
 };

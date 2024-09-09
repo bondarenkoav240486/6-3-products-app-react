@@ -41,7 +41,7 @@ const ProductDetails = () => {
     }
 
     return (
-        <div>
+        <div className='ProductDetails'>
             <h2>Product Details</h2>
             <Card>
                 <CardMedia
