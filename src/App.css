@@ -1,4 +1,18 @@
 .MuiCardMedia-root {
   width: auto !important;
-  margin: 0 auto;
+  margin: 2.09rem auto;
+}
+
+.MuiGrid-root 
+.MuiGrid-item
+{
+  padding-left: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.MuiPaper-root 
+.MuiPaper-elevation
+{
+  width: 100%;
 }
