@@ -1,0 +1,20 @@
+/* Стилі для мобільних пристроїв (до 600px) */
+@media only screen and (max-width: 600px) {
+  html {
+    font-size: 0.8rem;
+  }
+}
+
+/* Стилі для планшетів (600px до 900px) */
+@media only screen and (min-width: 600px) and (max-width: 900px) {
+  html {
+    font-size: 0.9rem;
+  }
+}
+
+/* Стилі для десктопів (понад 900px) */
+@media only screen and (min-width: 900px) {
+  html {
+    font-size: 1.0rem;
+  }
+}

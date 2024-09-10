@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import EditAPIProduct from './pages/EditAPIProduct';
 
 import './App.css';
+import './response.css';
 
 
 

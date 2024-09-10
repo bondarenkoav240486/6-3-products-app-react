@@ -190,6 +190,7 @@ const ProductsFromAPI = () => {
                 </Button>
             </div>
             <Pagination totalItems={products.length} itemsPerPage={itemsPerPage} />
+            {/* <Pagination totalItems={filteredProducts.length} itemsPerPage={itemsPerPage} /> */}
 
         </div>
     );
