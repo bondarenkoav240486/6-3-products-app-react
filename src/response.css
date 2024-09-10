@@ -3,6 +3,13 @@
   html {
     font-size: 0.8rem;
   }
+
+  .ProductDetails img {
+    margin: 0 auto;
+    width: auto;
+    width: 50%;
+    height: 10%;
+  }
 }
 
 /* Стилі для планшетів (600px до 900px) */
