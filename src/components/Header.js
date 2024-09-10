@@ -17,7 +17,19 @@ const Header = () => {
                 <Button color="inherit" component={Link} to="/create-APIproduct">Create API Product</Button>
                 {isAuthenticated
                     ?
-                    <Button color="inherit" component={Link} to="/protected">ProtectedPage</Button>
+                    <Button
+                        color="inherit"
+                        sx={{
+                            backgroundColor: 'red',
+                            '&:hover': {
+                                backgroundColor: 'darkred'
+                            }
+                        }}
+                        component={Link} to="/protected"
+                        // className="protected-button" // клас для кнопки
+                    >
+                        ProtectedPage
+                    </Button>
                     :
                     ''
                 }
